@@ -36,4 +36,25 @@ public class ChatMessageHelpers implements Serializable, Cloneable {
 
         return noOfRecordInserted;
     }
+
+    public static ChatMessageDetail getChatMessageDetail(Realm myRealm) {
+        boolean isInTx = true;
+        ChatMessageDetail chatMessageDetail = null;
+        try {
+            if (myRealm == null) {
+                isInTx = false;
+                myRealm = Realm.getDefaultInstance();
+            }
+            chatMessageDetail = myRealm.where(ChatMessageDetail.class).equalTo("J_ID", "9429533223").findFirst();
+            return chatMessageDetail;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (!isInTx && myRealm != null) {
+                myRealm.close();
+            }
+        }
+
+        return chatMessageDetail;
+    }
 }
